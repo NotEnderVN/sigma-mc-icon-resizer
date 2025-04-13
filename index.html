@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MC Server Icon Resizer</title>
+    <style>
+      :root {
+        --dark-bg: #0c0f1d;
+        --text-color: #ffffff;
+        --border-color: #2a2e46;
+        --button-color: #3a3f5a;
+        --button-hover: #4a4f69;
+        --accent-color: #506ee5;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--dark-bg);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 800px;
+        text-align: center;
+        margin: 2rem auto;
+      }
+
+      h1 {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        color: #a0a5b8;
+        margin-bottom: 2rem;
+      }
+
+      .upload-area {
+        border: 2px dashed var(--border-color);
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+      }
+
+      .upload-area:hover {
+        border-color: var(--accent-color);
+      }
+
+      .upload-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .upload-text {
+        font-size: 0.9rem;
+      }
+
+      #file-input {
+        display: none;
+      }
+
+      .comparison {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+
+      .image-container {
+        text-align: center;
+      }
+
+      .image-container img {
+        border-radius: 8px;
+        max-width: 100%;
+        height: auto;
+        background-image: linear-gradient(45deg, #333 25%, transparent 25%),
+          linear-gradient(-45deg, #333 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #333 75%),
+          linear-gradient(-45deg, transparent 75%, #333 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      }
+
+      .image-label {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: #a0a5b8;
+      }
+
+      .download-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem auto;
+        width: 100%;
+      }
+
+      .download-btn:hover {
+        background-color: #3857d0;
+      }
+
+      .download-btn svg {
+        margin-right: 0.5rem;
+      }
+
+      .download-hint {
+        font-size: 0.8rem;
+        color: #a0a5b8;
+        margin-top: 0.5rem;
+      }
+
+      .footer {
+        margin-top: auto;
+        padding: 1rem;
+        font-size: 0.8rem;
+        color: #606581;
+        display: flex;
+        align-items: center;
+      }
+
+      .footer img {
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5rem;
+      }
+
+      .theme-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .comparison {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .image-container {
+          max-width: 80%;
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Skibidi website to resize ur image</h1>
+      <div class="subtitle">
+        Powered by sigma enegry to resize your image to 64x64 and rename
+        your image to "server-icon.png"
+      </div>
+
+      <div class="upload-area" id="upload-area">
+        <div class="upload-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 16L12 8"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M9 11L12 8L15 11"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M20 16.7428C21.2215 15.734 22 14.2079 22 12.5C22 9.46243 19.5376 7 16.5 7C16.2815 7 16.0771 6.886 15.9661 6.69774C14.6621 4.48484 12.2544 3 9.5 3C5.35786 3 2 6.35786 2 10.5C2 12.5661 2.83545 14.4371 4.18695 15.7935"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16 16L18 18L22 18"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div class="upload-text">
+          Click here or drag-and-drop your image file
+        </div>
+        <input type="file" id="file-input" accept="image/*" />
+      </div>
+
+      <div class="comparison hidden" id="comparison">
+        <div class="image-container">
+          <img id="original-image" src="" alt="Original Image" />
+          <div class="image-label">Original Image</div>
+          <div id="original-size" class="image-label"></div>
+        </div>
+
+        <div class="image-container">
+          <img id="resized-image" src="" alt="Resized Image" />
+          <div class="image-label">Resized Image</div>
+          <div class="image-label">64x64px</div>
+        </div>
+      </div>
+
+      <button id="download-btn" class="download-btn hidden">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M7 10L12 15L17 10"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12 15V3"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Download Image
+      </button>
+      
+      <div id="download-hint" class="download-hint hidden">
+        Your image has been renamed to "server-icon.png"
+      </div>
+    </div>
+
+    <div class="footer">Vibe-coded ligma website :tm:</div>
+
+    <script>
+      // DOM elements
+      const uploadArea = document.getElementById("upload-area");
+      const fileInput = document.getElementById("file-input");
+      const comparison = document.getElementById("comparison");
+      const originalImage = document.getElementById("original-image");
+      const originalSize = document.getElementById("original-size");
+      const resizedImage = document.getElementById("resized-image");
+      const downloadBtn = document.getElementById("download-btn");
+      const downloadHint = document.getElementById("download-hint");
+      const themeToggle = document.getElementById("theme-toggle");
+
+      // Upload events
+      uploadArea.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = "#506ee5";
+      });
+
+      uploadArea.addEventListener("dragleave", () => {
+        uploadArea.style.borderColor = "";
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = "";
+
+        if (e.dataTransfer.files.length) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length) {
+          handleFile(fileInput.files[0]);
+        }
+      });
+
+      // Process uploaded file
+      function handleFile(file) {
+        if (!file.type.startsWith("image/")) {
+          alert("This is not image file lil bro!");
+          return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          const img = new Image();
+
+          img.onload = () => {
+            // Display original image
+            originalImage.src = e.target.result;
+            originalSize.textContent = `${img.width}x${img.height}px`;
+
+            // Resize image to 64x64
+            const canvas = document.createElement("canvas");
+            canvas.width = 64;
+            canvas.height = 64;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, 64, 64);
+
+            // Display resized image
+            resizedImage.src = canvas.toDataURL("image/png");
+
+            // Show comparison and download button
+            comparison.classList.remove("hidden");
+            downloadBtn.classList.remove("hidden");
+            downloadHint.classList.remove("hidden");
+
+            // Set up download button
+            downloadBtn.onclick = () => {
+              const link = document.createElement("a");
+              link.download = "server-icon.png";
+              link.href = resizedImage.src;
+              link.click();
+            };
+          };
+
+          img.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    </script>
+  </body>
+</html>
